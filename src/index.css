@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+/* ── Dripping Marker Font (primary — big headlines) ─────────── */
+@font-face {
+  font-family: 'ADrip';
+  src: url('/fonts/adrip1.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Graffiti Youth Font (secondary — labels, captions, badges) */
+@font-face {
+  font-family: 'GraffitiYouth';
+  src: url('/fonts/graffiti/GraffitiYouth-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
+
+@layer base {
+  :root {
+    --background: 255 20% 6%;
+    --foreground: 0 0% 100%;
+    --card: 255 20% 11%;
+    --card-foreground: 0 0% 100%;
+    --primary: 325 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 175 100% 50%;
+    --secondary-foreground: 255 20% 6%;
+    --muted: 255 15% 16%;
+    --muted-foreground: 255 10% 60%;
+    --accent: 325 100% 60%;
+    --accent-foreground: 0 0% 100%;
+    --border: 255 15% 20%;
+    --input: 255 15% 16%;
+    --ring: 325 100% 60%;
+    --hero-subtitle: 255 10% 90%;
+  }
+
+  /* All text uses Dripping Marker as default */
+  * {
+    font-family: 'ADrip', cursive !important;
+    letter-spacing: 0.02em;
+  }
+
+  body {
+    background-color: transparent;
+    color: var(--color-foreground);
+  }
+}
+
+/* ── Graffiti Youth utility class ─────────────────────────────── */
+/* Apply to: nav links, small labels, placeholder text, captions, badges, muted text */
+.font-graffiti {
+  font-family: 'GraffitiYouth', cursive !important;
+  letter-spacing: 0.04em;
+}
+
+/* ── Liquid Glass ─────────────────────────────────────────────── */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    hsla(325, 100%, 60%, 0.6) 0%,
+    hsla(175, 100%, 50%, 0.2) 40%,
+    transparent 60%,
+    hsla(325, 100%, 60%, 0.4) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.neon-glow-pink {
+  box-shadow: 0 0 20px hsla(325, 100%, 60%, 0.4), 0 0 60px hsla(325, 100%, 60%, 0.15);
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 20px hsla(175, 100%, 50%, 0.4), 0 0 60px hsla(175, 100%, 50%, 0.15);
+}
