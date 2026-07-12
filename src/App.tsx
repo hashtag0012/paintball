@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { Loader } from './components/Loader';
@@ -13,23 +13,29 @@ import { SmoothScrollProvider } from './components/SmoothScrollProvider';
 function scrollTo(id: string) {
   const el = document.querySelector(id);
   if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const offset = 80; // Account for fixed navbar
+  const elementPosition = el.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - offset;
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  });
 }
+
+const NAV_LINKS = [
+  { label: 'The Arena', href: '#about' },
+  { label: 'Gallery',   href: '#gallery' },
+  { label: 'Contact',   href: '#contact' },
+] as const;
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const links = [
-    { label: 'The Arena', href: '#hero' },
-    { label: 'Gallery',   href: '#gallery' },
-    { label: 'Waiver',    href: '#waiver' },
-  ];
-
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     scrollTo(href);
     setMenuOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -39,7 +45,7 @@ function Navbar() {
         {/* Logo */}
         <a href="#" onClick={(e) => handleClick(e, '#hero')} className="flex items-center">
           <img
-            src="/logo.png"
+            src="/logo.webp"
             alt="Headshot Paintball"
             className="h-16 md:h-20 w-auto object-contain"
             style={{ filter: 'none' }}
@@ -48,7 +54,7 @@ function Navbar() {
 
         {/* Desktop Pills */}
         <div className="hidden md:flex items-center gap-3 font-graffiti">
-          {links.map(({ label, href }) => (
+          {NAV_LINKS.map(({ label, href }) => (
             <a
               key={label}
               href={href}
@@ -88,7 +94,7 @@ function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-0 z-40 bg-black/95 flex flex-col items-center justify-center gap-8 md:hidden"
           >
-            {links.map(({ label, href }) => (
+            {NAV_LINKS.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}

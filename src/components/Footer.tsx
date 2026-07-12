@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 export function Footer() {
   return (
     <footer
-      className="relative px-6 pt-16 pb-8 flex flex-col items-center justify-center overflow-hidden text-white"
+      className="relative px-4 md:px-6 pt-12 md:pt-16 pb-8 flex flex-col items-center justify-center overflow-hidden text-white"
       style={{
-        backgroundImage: "url('/Gemini_Generated_Image_v4k3oav4k3oav4k3 (1).png')",
+        backgroundImage: "url('/Gemini_Generated_Image_v4k3oav4k3oav4k3 (1).webp')",
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
       }}
@@ -19,16 +19,16 @@ export function Footer() {
       {/* ── Corner mascots ── */}
       {/* Bottom-left */}
       <img
-        src="/2t.png"
+        src="/2t.webp"
         alt="Paintball character left"
-        className="absolute bottom-0 left-0 h-52 w-auto object-contain select-none pointer-events-none z-10"
+        className="absolute bottom-0 left-0 h-32 sm:h-40 md:h-52 w-auto object-contain select-none pointer-events-none z-10"
         style={{ filter: 'drop-shadow(0 0 12px rgba(0,0,0,0.9))' }}
       />
       {/* Bottom-right */}
       <img
-        src="/5t.png"
+        src="/5t.webp"
         alt="Paintball character right"
-        className="absolute bottom-0 right-0 h-52 w-auto object-contain select-none pointer-events-none z-10"
+        className="absolute bottom-0 right-0 h-32 sm:h-40 md:h-52 w-auto object-contain select-none pointer-events-none z-10"
         style={{ filter: 'drop-shadow(0 0 12px rgba(0,0,0,0.9))' }}
       />
 
@@ -44,35 +44,42 @@ export function Footer() {
 
         {/* Logo */}
         <img
-          src="/logo.png"
+          src="/logo.webp"
           alt="Headshot Paintball"
-          className="h-32 md:h-40 w-auto object-contain"
+          className="h-24 sm:h-28 md:h-32 lg:h-40 w-auto object-contain"
         />
 
         {/* Big brand text */}
         <div className="text-center leading-none">
-          <h2 className="font-adrip text-6xl md:text-8xl text-white tracking-tighter paint-drip-effect"
+          <h2 className="font-adrip text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-white tracking-tighter paint-drip-effect"
             style={{ WebkitTextStroke: '2px hsl(var(--secondary))', textShadow: '0 8px 32px rgba(0,0,0,0.8)' }}>
             HEADSHOT
           </h2>
-          <h2 className="font-adrip text-6xl md:text-8xl text-[hsl(var(--primary))] tracking-tighter neon-glow-pink">
+          <h2 className="font-adrip text-4xl sm:text-5xl md:text-6xl lg:text-8xl text-[hsl(var(--primary))] tracking-tighter neon-glow-pink">
             PAINTBALL
           </h2>
         </div>
 
         {/* Pill navigation links */}
-        <div className="flex flex-wrap justify-center gap-3 font-graffiti">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3 font-graffiti">
           {[
             { label: 'The Arena', href: '#about' },
             { label: 'Gallery',   href: '#gallery' },
-            { label: 'Waiver',    href: '#waiver' },
-            { label: 'Location',  href: '#contact' },
             { label: 'Contact',   href: '#contact' },
           ].map(({ label, href }) => (
             <a
               key={label}
               href={href}
-              className="text-sm uppercase tracking-widest text-white px-5 py-2 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm hover:bg-[hsl(var(--primary))] hover:text-black hover:border-[hsl(var(--primary))] transition-all duration-200"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.querySelector(href);
+                if (!el) return;
+                const offset = 80;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+              }}
+              className="text-xs sm:text-sm uppercase tracking-widest text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm hover:bg-[hsl(var(--primary))] hover:text-black hover:border-[hsl(var(--primary))] transition-all duration-200 cursor-pointer"
               style={{ WebkitTextStroke: '0.5px black', textShadow: '1px 1px 0 #000' }}
             >
               {label}
@@ -80,7 +87,16 @@ export function Footer() {
           ))}
           <a
             href="#contact"
-            className="text-sm uppercase tracking-widest text-black px-5 py-2 rounded-full bg-[hsl(var(--primary))] border border-[hsl(var(--primary))] hover:bg-transparent hover:text-[hsl(var(--primary))] transition-all duration-200 font-bold shadow-[0_0_16px_hsl(var(--primary)/0.6)]"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.querySelector('#contact');
+              if (!el) return;
+              const offset = 80;
+              const elementPosition = el.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - offset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }}
+            className="text-xs sm:text-sm uppercase tracking-widest text-black px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full bg-[hsl(var(--primary))] border border-[hsl(var(--primary))] hover:bg-transparent hover:text-[hsl(var(--primary))] transition-all duration-200 font-bold shadow-[0_0_16px_hsl(var(--primary)/0.6)] cursor-pointer"
             style={{ WebkitTextStroke: '0.5px black' }}
           >
             Book Now

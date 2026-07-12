@@ -5,10 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Headshot Paintball</title>
-    <!-- jQuery must be loaded synchronously before React (Turn.js needs older jQuery) -->
-    <script src="/jquery.js"></script>
-    <!-- Turn.js -->
-    <script src="/turn.js"></script>
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/fonts/adrip1.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/graffiti/GraffitiYouth-Regular.otf" as="font" type="font/otf" crossorigin />
+    <!-- Defer jQuery and Turn.js to prevent blocking -->
+    <script src="/jquery.js" defer></script>
+    <script src="/turn.js" defer></script>
   </head>
   <body>
     <div id="root"></div>

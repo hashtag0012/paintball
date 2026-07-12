@@ -2,6 +2,19 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 
+// Smooth-scroll helper
+function scrollTo(id: string) {
+  const el = document.querySelector(id);
+  if (!el) return;
+  const offset = 80; // Account for fixed navbar
+  const elementPosition = el.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - offset;
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  });
+}
+
 export function Hero() {
   const skeletonRef = useRef<HTMLDivElement>(null);
   const videoRef    = useRef<HTMLVideoElement>(null);
@@ -11,11 +24,6 @@ export function Hero() {
   const isSeeking  = useRef<boolean>(false);
 
   useEffect(() => {
-    // ── GSAP quickTo setup ──────────────────────────────────────────────
-    // quickTo returns a function that you call with a target value.
-    // GSAP internally lerps toward that value on every frame using the
-    // specified duration and ease — so calling it repeatedly on mousemove
-    // produces buttery-smooth motion without jitter.
     const xTo = gsap.quickTo(skeletonRef.current, 'x', {
       duration: 0.6,
       ease: 'power3.out',
@@ -36,29 +44,16 @@ export function Hero() {
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth: W, innerHeight: H } = window;
 
-      // ── Clamped mapping ─────────────────────────────────────────────
-      // mapRange converts the raw pixel coordinate to a value in [-1, 1].
-      // clamp ensures that even if the pointer goes outside the window
-      // (e.g. on multi-monitor setups), the animation holds its max position
-      // and never snaps back or loops.
       const nx = gsap.utils.clamp(-1, 1, gsap.utils.mapRange(0, W, -1, 1, e.clientX));
       const ny = gsap.utils.clamp(-1, 1, gsap.utils.mapRange(0, H, -1, 1, e.clientY));
 
-      // Translation range: natural follow
       xTo(nx * 30);
       yTo(ny * 20);
-
-      // Tilt range: flipped so it looks correct to user
       rotateYTo(nx * 25);
       rotateXTo(-ny * 15);
 
-      // ── Video scrubbing ─────────────────────────────────────────────
-      // Reverse the mapping: 
-      // If the video naturally looks RIGHT at 0s and LEFT at maxTime,
-      // moving cursor LEFT (0) should go to maxTime (looks LEFT).
-      // moving cursor RIGHT (W) should go to 0s (looks RIGHT).
       if (!videoRef.current?.duration) return;
-      const percent = 1 - (e.clientX / W); // Inverted mapping!
+      const percent = 1 - (e.clientX / W);
       const maxTime = videoRef.current.duration - 0.05;
       targetTime.current = Math.min(Math.max(percent * maxTime, 0), maxTime);
       if (!isSeeking.current) {
@@ -69,7 +64,6 @@ export function Hero() {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // ── Cleanup: remove listener AND kill quickTo tweens ───────────────
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       gsap.killTweensOf(skeletonRef.current);
@@ -86,12 +80,13 @@ export function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden pt-24 pb-16 md:pt-32 md:pb-20">
+    <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden pt-20 pb-12 md:pt-32 md:pb-20">
 
       {/* ── Background Video ── */}
       <video
         ref={videoRef}
         src="/upscaled-video (1).mp4"
+        poster="/aurora-bg.webp"
         muted
         playsInline
         preload="auto"
@@ -132,7 +127,7 @@ export function Hero() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <h1
-              className="font-adrip text-6xl sm:text-7xl md:text-9xl font-bold tracking-tight paint-drip-effect"
+              className="font-adrip text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold tracking-tight paint-drip-effect text-center md:text-left"
               style={{
                 color: 'hsl(var(--primary))',
                 WebkitTextStroke: '2px #fff',
@@ -155,7 +150,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="font-graffiti text-lg sm:text-xl md:text-3xl text-white max-w-lg leading-tight px-2 md:px-0"
+            className="font-graffiti text-base sm:text-lg md:text-2xl lg:text-3xl text-white max-w-lg leading-tight px-4 md:px-0 text-center md:text-left"
             style={{ WebkitTextStroke: '1px black', textShadow: '2px 2px 0 #000' }}
           >
             The most adrenaline-fueled arena in Kashmir.<br />
@@ -167,7 +162,10 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, type: 'spring', stiffness: 200, damping: 15 }}
           >
-            <button className="font-graffiti text-2xl uppercase tracking-widest bg-[hsl(var(--primary))] text-black px-10 py-4 hover:bg-white hover:text-black transition-colors duration-300 transform hover:-translate-y-1 shadow-[8px_8px_0_hsl(var(--accent))] border-2 border-black">
+            <button 
+              onClick={() => scrollTo('#contact')}
+              className="font-graffiti text-lg sm:text-xl md:text-2xl uppercase tracking-widest bg-[hsl(var(--primary))] text-black px-6 sm:px-8 md:px-10 py-3 sm:py-4 hover:bg-white hover:text-black transition-colors duration-300 transform hover:-translate-y-1 shadow-[8px_8px_0_hsl(var(--accent))] border-2 border-black cursor-pointer"
+            >
               Book a Game
             </button>
           </motion.div>
