@@ -52,8 +52,8 @@ async function main() {
   try {
     // Compress hero video (4.8MB → target ~1-2MB)
     await compressVideo(
-      'upscaled-video (1).mp4',
-      'upscaled-video (1)-compressed.mp4',
+      'hero-video.mp4',
+      'hero-video-compressed.mp4',
       { crf: '28', scale: '1920:-2' }
     );
 
@@ -66,7 +66,7 @@ async function main() {
 
     console.log('\n✓ Video compression complete');
     console.log('\nTo use compressed videos, update the references in your code:');
-    console.log('  - Hero.tsx: src="/upscaled-video (1)-compressed.mp4"');
+    console.log('  - Hero.tsx: src="/hero-video.mp4"');
     console.log('  - About.tsx: videoSrc="/head-compressed.mp4"');
   } catch (error) {
     console.error('\n✗ Compression failed:', error.message);

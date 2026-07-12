@@ -16,7 +16,7 @@ export function Loader() {
 
   if (phase === 'done') return null;
 
-  const BG = "url('/Gemini_Generated_Image_v4k3oav4k3oav4k3 (1).png')";
+  const BG = "url('/Gemini_Generated_Image_v4k3oav4k3oav4k3 (1).webp')";
   const exiting = phase === 'out';
 
   return (
@@ -64,7 +64,7 @@ export function Loader() {
         transition={{ duration: 0.3 }}
       >
         <motion.img
-          src="/logo.png"
+          src="/logo.webp"
           alt="Headshot Paintball"
           className="w-44 h-44 object-contain"
           initial={{ scale: 0.7, opacity: 0 }}

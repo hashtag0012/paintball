@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 
@@ -18,10 +18,22 @@ function scrollTo(id: string) {
 export function Hero() {
   const skeletonRef = useRef<HTMLDivElement>(null);
   const videoRef    = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   // Video scrubbing state
   const targetTime = useRef<number>(0);
   const isSeeking  = useRef<boolean>(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const onReady = () => setVideoReady(true);
+    video.addEventListener('loadeddata', onReady);
+    if (video.readyState >= 2) onReady();
+
+    return () => video.removeEventListener('loadeddata', onReady);
+  }, []);
 
   useEffect(() => {
     const xTo = gsap.quickTo(skeletonRef.current, 'x', {
@@ -82,16 +94,25 @@ export function Hero() {
   return (
     <section id="hero" className="relative min-h-[100svh] flex flex-col justify-center items-center overflow-hidden pt-20 pb-12 md:pt-32 md:pb-20">
 
-      {/* ── Background Video ── */}
+      {/* ── Instant poster (shows before video decodes) ── */}
+      <img
+        src="/aurora-bg.webp"
+        alt=""
+        fetchPriority="high"
+        decoding="async"
+        className={`absolute inset-0 w-full h-full object-cover z-0 scale-[1.05] transition-opacity duration-500 ${videoReady ? 'opacity-0' : 'opacity-100'}`}
+        style={{ objectPosition: '70% 30%' }}
+      />
+
+      {/* ── Background Video (mouse-scrubbed) ── */}
       <video
         ref={videoRef}
-        src="/upscaled-video (1).mp4"
-        poster="/aurora-bg.webp"
+        src="/hero-video.mp4"
         muted
         playsInline
         preload="auto"
         onSeeked={handleSeeked}
-        className="absolute inset-0 w-full h-full object-cover z-0 scale-[1.05]"
+        className={`absolute inset-0 w-full h-full object-cover z-0 scale-[1.05] transition-opacity duration-500 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
         style={{ objectPosition: '70% 30%' }}
       />
 
