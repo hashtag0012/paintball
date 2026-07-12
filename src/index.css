@@ -39,75 +39,73 @@
 
 @layer base {
   :root {
-    --background: 255 20% 6%;
+    /* Headshot Paintball Palette */
+    /* Deep Black */
+    --background: 0 0% 4%;
     --foreground: 0 0% 100%;
-    --card: 255 20% 11%;
+    
+    --card: 0 0% 8%;
     --card-foreground: 0 0% 100%;
-    --primary: 325 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 175 100% 50%;
-    --secondary-foreground: 255 20% 6%;
-    --muted: 255 15% 16%;
-    --muted-foreground: 255 10% 60%;
-    --accent: 325 100% 60%;
-    --accent-foreground: 0 0% 100%;
-    --border: 255 15% 20%;
-    --input: 255 15% 16%;
-    --ring: 325 100% 60%;
-    --hero-subtitle: 255 10% 90%;
+    
+    /* Electric Lime / Acid Green */
+    --primary: 84 100% 59%; 
+    --primary-foreground: 0 0% 4%;
+    
+    /* Hot Pink / Magenta */
+    --secondary: 320 100% 55%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+    
+    /* Bright Yellow / Amber */
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 4%;
+    
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 84 100% 59%;
   }
 
-  /* All text uses Dripping Marker as default */
-  * {
-    font-family: 'ADrip', cursive !important;
-    letter-spacing: 0.02em;
-  }
-
+  /* All text uses Dripping Marker as default, wait, user said body copy must remain readable, so we will not enforce ADrip on everything. */
   body {
-    background-color: transparent;
+    background-color: var(--color-background);
     color: var(--color-foreground);
+    /* We'll default to a clean sans-serif for body to keep it readable, and use font-adrip or font-graffiti for headings */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'ADrip', cursive;
+    letter-spacing: 0.02em;
   }
 }
 
-/* ── Graffiti Youth utility class ─────────────────────────────── */
-/* Apply to: nav links, small labels, placeholder text, captions, badges, muted text */
+/* ── Font utility classes ─────────────────────────────── */
+.font-adrip {
+  font-family: 'ADrip', cursive !important;
+}
+
 .font-graffiti {
   font-family: 'GraffitiYouth', cursive !important;
   letter-spacing: 0.04em;
 }
 
-/* ── Liquid Glass ─────────────────────────────────────────────── */
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+/* ── Paint Leak / Drip Effect ─────────────────────────────── */
+.paint-drip-effect {
   position: relative;
-  overflow: hidden;
+  display: inline-block;
 }
 
-.liquid-glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg,
-    hsla(325, 100%, 60%, 0.6) 0%,
-    hsla(175, 100%, 50%, 0.2) 40%,
-    transparent 60%,
-    hsla(325, 100%, 60%, 0.4) 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+/* ── Neon Glows based on new palette ─────────────────────────────── */
+.neon-glow-lime {
+  box-shadow: 0 0 20px hsla(84, 100%, 59%, 0.4), 0 0 60px hsla(84, 100%, 59%, 0.15);
 }
 
 .neon-glow-pink {
-  box-shadow: 0 0 20px hsla(325, 100%, 60%, 0.4), 0 0 60px hsla(325, 100%, 60%, 0.15);
+  box-shadow: 0 0 20px hsla(320, 100%, 55%, 0.4), 0 0 60px hsla(320, 100%, 55%, 0.15);
 }
 
 .neon-glow-cyan {
-  box-shadow: 0 0 20px hsla(175, 100%, 50%, 0.4), 0 0 60px hsla(175, 100%, 50%, 0.15);
+  box-shadow: 0 0 20px hsla(180, 100%, 50%, 0.4), 0 0 60px hsla(180, 100%, 50%, 0.15);
 }

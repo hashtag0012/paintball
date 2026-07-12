@@ -1,0 +1,90 @@
+/* ═══════════════════════════════════════════════════
+   FLIPBOOK — Turn.js exact styles (no external CDN)
+   ═══════════════════════════════════════════════════ */
+
+/* Wrapper: horizontally scrollable on small screens, centered */
+.flipbook-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.flipbook {
+    width: 900px;
+    height: 550px;
+    flex-shrink: 0;
+    /* Turn.js positions children absolutely — must not be flex/grid */
+    position: relative;
+}
+
+/* ── HARD COVERS: near-black with subtle grain ── */
+.flipbook .hard {
+    background-color: #0d0d0d !important;
+    background-image:
+        radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.025) 0%, transparent 70%),
+        radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.015) 0%, transparent 60%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255,255,255,0.015) 3px,
+            rgba(255,255,255,0.015) 4px
+        ) !important;
+    color: #fff !important;
+    font-weight: bold;
+    border: none !important;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
+    overflow: hidden;
+}
+
+.flipbook .hard small {
+    font-style: italic;
+    font-weight: lighter;
+    opacity: 0.6;
+    font-size: 13px;
+}
+
+/* ── INNER PAGES: cream with ruled lines ── */
+.flipbook .page {
+    background-color: #f7f2e8 !important;
+    background-image:
+        /* Red margin line */
+        linear-gradient(to right, transparent 48px, rgba(220, 100, 100, 0.3) 48px, rgba(220, 100, 100, 0.3) 50px, transparent 50px),
+        /* Ruled horizontal lines every 32px */
+        repeating-linear-gradient(
+            transparent,
+            transparent 31px,
+            rgba(100, 140, 220, 0.22) 31px,
+            rgba(100, 140, 220, 0.22) 32px
+        ) !important;
+    border: solid 1px #d4cec0 !important;
+    box-shadow: inset 4px 0 12px rgba(0,0,0,0.08), inset -2px 0 8px rgba(0,0,0,0.04) !important;
+    overflow: hidden;
+}
+
+/* Photo borders inside pages */
+.flipbook .page img,
+.flipbook .page .photo {
+    border: 5px solid #fff !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+    display: block;
+}
+
+.flipbook .page small {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+/* Mobile: hide flipbook, show card grid */
+@media (max-width: 960px) {
+    .flipbook-wrapper {
+        display: none;
+    }
+    .flipbook-mobile {
+        display: flex !important;
+    }
+}
